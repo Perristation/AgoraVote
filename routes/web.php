@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\ElectionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,6 +16,10 @@ Route::get('/dashboard', function () {
 Route::get('/admin', [AdminDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('admin.dashboard');
+
+Route::get('/admin/votaciones', [ElectionController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.elections.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

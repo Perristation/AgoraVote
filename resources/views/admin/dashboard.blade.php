@@ -21,7 +21,19 @@
                 <p class="text-gray-600">
                     Desde este panel se gestionarán los usuarios, roles, categorías,
                     votaciones, opciones y resultados de la plataforma.
+                    <div class="mt-6 flex flex-wrap gap-3">
+    <a href="{{ route('admin.elections.index') }}"
+       class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
+        Gestionar votaciones
+    </a>
+
+    <a href="{{ route('dashboard') }}"
+       class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+        Volver al inicio
+    </a>
+</div>
                 </p>
+                
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
