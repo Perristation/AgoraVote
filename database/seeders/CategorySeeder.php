@@ -9,24 +9,24 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        Category::create([
-            'name' => 'Alumnado',
-            'description' => 'Categoría destinada a los alumnos del centro educativo.',
-        ]);
+        Category::firstOrCreate(
+            ['name' => 'Alumnado'],
+            ['description' => 'Categoría destinada a los alumnos del centro educativo.']
+        );
 
-        Category::create([
-            'name' => 'Profesorado',
-            'description' => 'Categoría destinada al personal docente del centro.',
-        ]);
+        Category::firstOrCreate(
+            ['name' => 'Profesorado'],
+            ['description' => 'Categoría destinada al personal docente del centro educativo.']
+        );
 
-        Category::create([
-            'name' => 'Familias',
-            'description' => 'Categoría destinada a padres, madres o tutores legales.',
-        ]);
+        Category::firstOrCreate(
+            ['name' => 'Familias'],
+            ['description' => 'Categoría destinada a padres, madres o tutores legales.']
+        );
 
-        Category::create([
-            'name' => 'Administración',
-            'description' => 'Categoría destinada al personal administrativo del centro.',
-        ]);
+        Category::firstOrCreate(
+            ['name' => 'Administración'],
+            ['description' => 'Categoría destinada al personal administrativo y de gestión.']
+        );
     }
 }

@@ -12,18 +12,26 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::create([
-            'name' => 'Carlos de Martín Juan',
-            'email' => 'admin@agoravote.test',
-            'password' => Hash::make('password'),
-        ]);
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@agoravote.test'],
+            [
+                'name' => 'Carlos de Martín Juan',
+                'password' => Hash::make('password'),
+            ]
+        );
 
         $adminRole = Role::where('name', 'admin')->first();
-        $admin->roles()->attach($adminRole->id);
+
+        if ($adminRole) {
+            $admin->roles()->syncWithoutDetaching([$adminRole->id]);
+        }
 
         $adminCategory = Category::where('name', 'Administración')->first();
-        $admin->categories()->attach($adminCategory->id, [
-            'assigned_at' => now(),
-        ]);
+
+        if ($adminCategory) {
+            $admin->categories()->syncWithoutDetaching([
+                $adminCategory->id => ['assigned_at' => now()],
+            ]);
+        }
     }
 }
