@@ -24,7 +24,7 @@
                         </p>
                     </div>
 
-                    <a href="#"
+                    <a href="{{ route('admin.elections.create') }}"
                        class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
                         Nueva votación
                     </a>
@@ -105,7 +105,7 @@
                             <p class="text-gray-600 mb-6">
                                 Cuando se creen votaciones desde el panel de administración, aparecerán en este listado.
                             </p>
-                            <a href="#"
+                            <a href="{{ route('admin.elections.create') }}"
                                class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
                                 Crear primera votación
                             </a>

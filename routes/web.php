@@ -21,6 +21,14 @@ Route::get('/admin/votaciones', [ElectionController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('admin.elections.index');
 
+Route::get('/admin/votaciones/crear', [ElectionController::class, 'create'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.elections.create');
+
+Route::post('/admin/votaciones', [ElectionController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.elections.store');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
