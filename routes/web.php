@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ElectionController;
 use App\Http\Controllers\Admin\ElectionSectionController;
+use App\Http\Controllers\Admin\ResultController;
 use App\Http\Controllers\VoteController;
 
 Route::get('/', function () {
@@ -14,6 +15,12 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| Rutas de votación para usuarios
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/votaciones', [VoteController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -31,15 +38,15 @@ Route::get('/voto/confirmacion/{participation}', [VoteController::class, 'confir
     ->middleware(['auth', 'verified'])
     ->name('votes.confirmation');
 
+/*
+|--------------------------------------------------------------------------
+| Rutas de administración
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/admin', [AdminDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('admin.dashboard');
-
-/*
-|--------------------------------------------------------------------------
-| Rutas de administración de votaciones
-|--------------------------------------------------------------------------
-*/
 
 Route::get('/admin/votaciones', [ElectionController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -64,6 +71,10 @@ Route::get('/admin/votaciones/{election}/secciones/crear', [ElectionSectionContr
 Route::post('/admin/votaciones/{election}/secciones', [ElectionSectionController::class, 'store'])
     ->middleware(['auth', 'verified'])
     ->name('admin.elections.sections.store');
+
+Route::get('/admin/votaciones/{election}/resultados', [ResultController::class, 'show'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.results.show');
 
 /*
 |--------------------------------------------------------------------------
