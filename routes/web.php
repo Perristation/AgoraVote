@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ElectionController;
 use App\Http\Controllers\Admin\ElectionSectionController;
+use App\Http\Controllers\VoteController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -13,6 +14,22 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/votaciones', [VoteController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('votes.index');
+
+Route::get('/votaciones/{election}', [VoteController::class, 'show'])
+    ->middleware(['auth', 'verified'])
+    ->name('votes.show');
+
+Route::post('/votaciones/{election}', [VoteController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('votes.store');
+
+Route::get('/voto/confirmacion/{participation}', [VoteController::class, 'confirmation'])
+    ->middleware(['auth', 'verified'])
+    ->name('votes.confirmation');
 
 Route::get('/admin', [AdminDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
