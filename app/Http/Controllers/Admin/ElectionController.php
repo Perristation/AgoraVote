@@ -60,4 +60,14 @@ class ElectionController extends Controller
             ->route('admin.elections.index')
             ->with('success', 'La votación se ha creado correctamente.');
     }
+    public function show(Election $election)
+{
+    $election->load([
+        'creator',
+        'categories',
+        'sections.options',
+    ]);
+
+    return view('admin.elections.show', compact('election'));
+}
 }

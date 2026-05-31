@@ -63,9 +63,10 @@
                                     @foreach ($elections as $election)
                                         <tr>
                                             <td class="px-4 py-4">
-                                                <p class="font-semibold text-gray-800">
-                                                    {{ $election->title }}
-                                                </p>
+                                                <a href="{{ route('admin.elections.show', $election) }}"
+                                                 class="font-semibold text-indigo-700 hover:text-indigo-900">
+                                                     {{ $election->title }}
+                                                </a>
                                                 <p class="text-sm text-gray-500">
                                                     {{ $election->description }}
                                                 </p>
