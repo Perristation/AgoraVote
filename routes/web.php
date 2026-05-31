@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ElectionController;
 use App\Http\Controllers\Admin\ElectionSectionController;
 use App\Http\Controllers\Admin\ResultController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\VoteController;
 
 Route::get('/', function () {
@@ -47,6 +48,30 @@ Route::get('/voto/confirmacion/{participation}', [VoteController::class, 'confir
 Route::get('/admin', [AdminDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('admin.dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| Gestión de usuarios
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/admin/usuarios', [UserController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.users.index');
+
+Route::get('/admin/usuarios/crear', [UserController::class, 'create'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.users.create');
+
+Route::post('/admin/usuarios', [UserController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.users.store');
+
+/*
+|--------------------------------------------------------------------------
+| Gestión de votaciones
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/admin/votaciones', [ElectionController::class, 'index'])
     ->middleware(['auth', 'verified'])
