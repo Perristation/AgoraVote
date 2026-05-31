@@ -46,7 +46,7 @@ Route::get('/voto/confirmacion/{participation}', [VoteController::class, 'confir
 */
 
 Route::get('/admin', [AdminDashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.dashboard');
 
 /*
@@ -56,15 +56,15 @@ Route::get('/admin', [AdminDashboardController::class, 'index'])
 */
 
 Route::get('/admin/usuarios', [UserController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.users.index');
 
 Route::get('/admin/usuarios/crear', [UserController::class, 'create'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.users.create');
 
 Route::post('/admin/usuarios', [UserController::class, 'store'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.users.store');
 
 /*
@@ -74,31 +74,31 @@ Route::post('/admin/usuarios', [UserController::class, 'store'])
 */
 
 Route::get('/admin/votaciones', [ElectionController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.elections.index');
 
 Route::get('/admin/votaciones/crear', [ElectionController::class, 'create'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.elections.create');
 
 Route::post('/admin/votaciones', [ElectionController::class, 'store'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.elections.store');
 
 Route::get('/admin/votaciones/{election}', [ElectionController::class, 'show'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.elections.show');
 
 Route::get('/admin/votaciones/{election}/secciones/crear', [ElectionSectionController::class, 'create'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.elections.sections.create');
 
 Route::post('/admin/votaciones/{election}/secciones', [ElectionSectionController::class, 'store'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.elections.sections.store');
 
 Route::get('/admin/votaciones/{election}/resultados', [ResultController::class, 'show'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.results.show');
 
 /*

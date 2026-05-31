@@ -54,7 +54,7 @@
                         Ver resultados
                     </a>
 </div>
-
+            @if (auth()->user()->hasRole('admin'))
                 <div class="bg-white shadow-sm sm:rounded-lg p-6">
                     <h4 class="text-lg font-semibold text-gray-800 mb-2">
                         Administración
@@ -67,6 +67,7 @@
                         Panel admin
                     </a>
                 </div>
+            @endif
 
             </div>
 
