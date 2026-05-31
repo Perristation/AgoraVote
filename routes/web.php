@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ElectionSectionController;
 use App\Http\Controllers\Admin\ResultController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\VoteVerificationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,6 +39,20 @@ Route::post('/votaciones/{election}', [VoteController::class, 'store'])
 Route::get('/voto/confirmacion/{participation}', [VoteController::class, 'confirmation'])
     ->middleware(['auth', 'verified'])
     ->name('votes.confirmation');
+
+/*
+|--------------------------------------------------------------------------
+| Verificación de voto
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/verificar-voto', [VoteVerificationController::class, 'create'])
+    ->middleware(['auth', 'verified'])
+    ->name('votes.verify.create');
+
+Route::post('/verificar-voto', [VoteVerificationController::class, 'check'])
+    ->middleware(['auth', 'verified'])
+    ->name('votes.verify.check');
 
 /*
 |--------------------------------------------------------------------------

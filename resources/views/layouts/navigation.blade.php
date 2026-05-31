@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('votes.index')" :active="request()->routeIs('votes.*')">
                          Votaciones
                     </x-nav-link>
+                    <x-nav-link :href="route('votes.verify.create')" :active="request()->routeIs('votes.verify.*')">
+                        Verificar voto
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -78,6 +81,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('votes.index')" :active="request()->routeIs('votes.*')">
                 Votaciones
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('votes.verify.create')" :active="request()->routeIs('votes.verify.*')">
+                Verificar voto
             </x-responsive-nav-link>
         </div>
 

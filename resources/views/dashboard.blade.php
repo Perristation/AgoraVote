@@ -37,8 +37,21 @@
                         Consulta las votaciones activas y participa en aquellas en las que tengas autorización.
                     </p>
                     <a href="{{ route('votes.index') }}"
-                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
+                       class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
                         Ver votaciones
+                    </a>
+                </div>
+
+                <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-2">
+                        Verificar voto
+                    </h4>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Comprueba que tu participación ha sido registrada mediante el código de verificación recibido.
+                    </p>
+                    <a href="{{ route('votes.verify.create') }}"
+                    class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                        Verificar código
                     </a>
                 </div>
 
@@ -50,24 +63,25 @@
                         Accede al listado de votaciones para consultar los resultados y la participación de cada proceso.
                     </p>
                     <a href="{{ route('admin.elections.index') }}"
-                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                       class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
                         Ver resultados
                     </a>
-</div>
-            @if (auth()->user()->hasRole('admin'))
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                    <h4 class="text-lg font-semibold text-gray-800 mb-2">
-                        Administración
-                    </h4>
-                    <p class="text-sm text-gray-600 mb-4">
-                        Gestiona usuarios, categorías, votaciones, opciones y permisos del sistema.
-                    </p>
-                    <a href="{{ route('admin.dashboard') }}"
-                    class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700">
-                        Panel admin
-                    </a>
                 </div>
-            @endif
+
+                @if (auth()->user()->hasRole('admin'))
+                    <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">
+                            Administración
+                        </h4>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Gestiona usuarios, categorías, votaciones, opciones y permisos del sistema.
+                        </p>
+                        <a href="{{ route('admin.dashboard') }}"
+                           class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700">
+                            Panel admin
+                        </a>
+                    </div>
+                @endif
 
             </div>
 
