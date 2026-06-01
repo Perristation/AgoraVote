@@ -1,59 +1,547 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AgoraVote
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+AgoraVote es una aplicación web desarrollada con Laravel para la gestión de votaciones digitales en centros educativos.
 
-## About Laravel
+El objetivo principal del proyecto es sustituir un sistema tradicional de votación en papel por una plataforma web que permita gestionar usuarios, roles, categorías, votaciones, opciones, emisión de votos, verificación mediante código y consulta de resultados.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Este proyecto ha sido desarrollado como Trabajo Final del ciclo de 2º Desarrollo de Aplicaciones Web en el IES Joan Coromines.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Autor
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Carlos de Martín Juan
 
-## Learning Laravel
+## Descripción general
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+AgoraVote está orientada a centros educativos que necesitan organizar votaciones internas, como elecciones de representantes, consultas al alumnado, votaciones del profesorado o procesos participativos con familias.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+La aplicación diferencia dos conceptos principales:
 
-## Laravel Sponsors
+* Roles: determinan los permisos del usuario dentro de la aplicación.
+* Categorías: determinan el colectivo electoral al que pertenece el usuario.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Por ejemplo, un usuario puede tener el rol de votante y pertenecer a la categoría Alumnado. Otro usuario puede tener el rol de admin y pertenecer a la categoría Administración.
 
-### Premium Partners
+Esta separación permite que el sistema controle por un lado quién puede administrar la aplicación y, por otro, en qué votaciones puede participar cada usuario.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Funcionalidades implementadas
 
-## Contributing
+### Autenticación
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+La aplicación incluye un sistema de autenticación basado en Laravel Breeze. Permite registrar usuarios, iniciar sesión, cerrar sesión y acceder al perfil de usuario.
 
-## Code of Conduct
+### Panel de administración
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+El panel de administración está protegido mediante middleware. Solo los usuarios con rol admin pueden acceder a las rutas de administración.
 
-## Security Vulnerabilities
+Desde el panel de administración se puede:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* Consultar un resumen general del sistema.
+* Gestionar usuarios.
+* Crear usuarios.
+* Asignar roles a usuarios.
+* Asignar categorías a usuarios.
+* Crear votaciones.
+* Añadir secciones y opciones de voto.
+* Consultar resultados de las votaciones.
 
-## License
+### Gestión de usuarios
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+El administrador puede crear usuarios desde el panel de administración. Al crear un usuario se le asigna:
+
+* Nombre.
+* Correo electrónico.
+* Contraseña inicial.
+* Rol.
+* Categoría o categorías.
+
+Los roles disponibles son:
+
+* admin
+* votante
+* supervisor
+
+Las categorías disponibles son:
+
+* Alumnado
+* Profesorado
+* Familias
+* Administración
+
+### Gestión de votaciones
+
+El administrador puede crear votaciones indicando:
+
+* Título.
+* Descripción.
+* Fecha de inicio.
+* Fecha de finalización.
+* Estado de la votación.
+* Tipo de votación.
+* Número máximo de selecciones.
+* Si la votación es anónima.
+* Si los resultados se muestran en tiempo real.
+* Categorías autorizadas para participar.
+
+### Secciones y opciones de voto
+
+Cada votación puede tener una o varias secciones. Cada sección contiene las opciones que podrán seleccionar los votantes.
+
+Ejemplo:
+
+Elección Consejo Escolar 2026
+
+* Representantes del alumnado
+
+  * Ana García
+  * Marcos Pérez
+  * Laura Sánchez
+  * David Ruiz
+
+### Emisión de voto
+
+Los usuarios con rol votante pueden acceder a las votaciones activas asociadas a sus categorías.
+
+El sistema controla que un usuario no pueda votar dos veces en la misma votación y con la misma categoría.
+
+Después de votar, el sistema genera un código único de verificación.
+
+### Verificación de voto
+
+Después de emitir el voto, el usuario recibe un código de verificación. Desde la sección Verificar voto puede introducir ese código y comprobar que su participación ha sido registrada correctamente.
+
+Para mantener la privacidad del voto, la verificación no muestra la opción seleccionada. Solo confirma que existe una participación registrada con ese código.
+
+### Resultados
+
+Desde el panel de administración se pueden consultar los resultados de cada votación.
+
+La pantalla de resultados muestra:
+
+* Total de votos emitidos.
+* Participación por categoría.
+* Resultados por opción.
+* Porcentaje de votos de cada opción.
+
+## Tecnologías utilizadas
+
+El proyecto utiliza las siguientes tecnologías:
+
+* Laravel
+* PHP
+* Blade
+* Laravel Breeze
+* SQLite
+* Eloquent ORM
+* Tailwind CSS
+* Vite
+* Node.js
+* Composer
+* Git
+* GitHub
+
+## Requisitos previos
+
+Para ejecutar el proyecto en local es necesario tener instalado:
+
+* PHP
+* Composer
+* Node.js
+* NPM
+* Git
+
+En Windows se puede utilizar XAMPP para disponer de PHP de forma sencilla.
+
+## Instalación del proyecto
+
+### 1. Clonar el repositorio
+
+Clonar el repositorio desde GitHub:
+
+```bash
+git clone https://github.com/Perristation/AgoraVote.git
+```
+
+Entrar en la carpeta del proyecto:
+
+```bash
+cd AgoraVote
+```
+
+### 2. Instalar dependencias de PHP
+
+Ejecutar:
+
+```bash
+composer install
+```
+
+### 3. Instalar dependencias de Node
+
+Ejecutar:
+
+```bash
+npm install
+```
+
+### 4. Crear el archivo de entorno
+
+En Windows:
+
+```bash
+copy .env.example .env
+```
+
+En Linux o Mac:
+
+```bash
+cp .env.example .env
+```
+
+### 5. Generar la clave de Laravel
+
+Ejecutar:
+
+```bash
+php artisan key:generate
+```
+
+### 6. Configurar la base de datos SQLite
+
+Crear el archivo de base de datos.
+
+En Windows:
+
+```bash
+type nul > database\database.sqlite
+```
+
+En Linux o Mac:
+
+```bash
+touch database/database.sqlite
+```
+
+Después, abrir el archivo `.env` y configurar la conexión así:
+
+```env
+DB_CONNECTION=sqlite
+```
+
+Si aparecen variables de MySQL, se pueden comentar o eliminar:
+
+```env
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=laravel
+# DB_USERNAME=root
+# DB_PASSWORD=
+```
+
+### 7. Ejecutar migraciones y datos iniciales
+
+Ejecutar:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+Este comando crea todas las tablas necesarias y carga los datos iniciales:
+
+* Roles.
+* Categorías.
+* Usuario administrador.
+
+### 8. Compilar recursos del frontend
+
+Ejecutar:
+
+```bash
+npm run build
+```
+
+### 9. Iniciar el servidor local
+
+Ejecutar:
+
+```bash
+php artisan serve
+```
+
+La aplicación estará disponible en:
+
+```text
+http://127.0.0.1:8000
+```
+
+## Credenciales de prueba
+
+Después de ejecutar los seeders, se crea un usuario administrador:
+
+```text
+Email: admin@agoravote.test
+Contraseña: password
+```
+
+Con este usuario se puede acceder al panel de administración.
+
+## Usuarios de prueba recomendados
+
+Desde el panel de administración se pueden crear usuarios de prueba.
+
+Usuario alumno:
+
+```text
+Nombre: Alumno Demo
+Email: alumno@agoravote.test
+Contraseña: password
+Rol: votante
+Categoría: Alumnado
+```
+
+Usuario profesor:
+
+```text
+Nombre: Profesor Demo
+Email: profesor@agoravote.test
+Contraseña: password
+Rol: votante
+Categoría: Profesorado
+```
+
+Usuario familia:
+
+```text
+Nombre: Familia Demo
+Email: familia@agoravote.test
+Contraseña: password
+Rol: votante
+Categoría: Familias
+```
+
+## Guía rápida de uso
+
+### 1. Acceder como administrador
+
+Entrar en:
+
+```text
+http://127.0.0.1:8000/login
+```
+
+Usar las credenciales:
+
+```text
+Email: admin@agoravote.test
+Contraseña: password
+```
+
+### 2. Crear usuarios
+
+Desde el panel de administración:
+
+```text
+Panel admin → Gestionar usuarios → Nuevo usuario
+```
+
+Rellenar los datos del usuario y asignarle rol y categoría.
+
+### 3. Crear una votación
+
+Desde el panel de administración:
+
+```text
+Panel admin → Gestionar votaciones → Nueva votación
+```
+
+Ejemplo de votación:
+
+```text
+Título: Elección Consejo Escolar 2026
+Descripción: Votación para elegir representantes del consejo escolar.
+Estado: Activa
+Tipo: Varias opciones: una selección
+Máximo de selecciones: 1
+Categorías autorizadas: Alumnado, Profesorado, Familias
+```
+
+### 4. Añadir secciones y opciones
+
+Entrar en la votación creada y pulsar:
+
+```text
+Añadir sección/opciones
+```
+
+Ejemplo:
+
+```text
+Título de sección: Representantes del alumnado
+Descripción: Candidatos disponibles para representar al alumnado.
+Máximo de selecciones: 1
+
+Opciones:
+- Ana García
+- Marcos Pérez
+- Laura Sánchez
+- David Ruiz
+```
+
+### 5. Votar como usuario
+
+Cerrar sesión como administrador e iniciar sesión con un usuario votante.
+
+Entrar en:
+
+```text
+Votaciones
+```
+
+Seleccionar una votación activa, elegir una opción y confirmar el voto.
+
+Al finalizar, el sistema mostrará un código de verificación.
+
+### 6. Verificar voto
+
+Entrar en:
+
+```text
+Verificar voto
+```
+
+Introducir el código generado después de votar.
+
+El sistema confirmará si el voto está registrado.
+
+### 7. Consultar resultados
+
+Entrar como administrador.
+
+Ir a:
+
+```text
+Panel admin → Gestionar votaciones → Seleccionar votación → Ver resultados
+```
+
+Se mostrarán:
+
+* Votos totales.
+* Participación por categoría.
+* Votos por opción.
+* Porcentaje de cada opción.
+
+## Estructura principal del proyecto
+
+```text
+AgoraVote/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Admin/
+│   │   │   │   ├── DashboardController.php
+│   │   │   │   ├── ElectionController.php
+│   │   │   │   ├── ElectionSectionController.php
+│   │   │   │   ├── ResultController.php
+│   │   │   │   └── UserController.php
+│   │   │   ├── VoteController.php
+│   │   │   └── VoteVerificationController.php
+│   │   └── Middleware/
+│   │       └── IsAdmin.php
+│   └── Models/
+│       ├── User.php
+│       ├── Role.php
+│       ├── Category.php
+│       ├── Election.php
+│       ├── ElectionSection.php
+│       ├── VoteOption.php
+│       ├── Participation.php
+│       ├── Vote.php
+│       └── AuditLog.php
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── resources/
+│   └── views/
+│       ├── admin/
+│       ├── votes/
+│       ├── dashboard.blade.php
+│       └── welcome.blade.php
+├── routes/
+│   └── web.php
+├── composer.json
+├── package.json
+└── README.md
+```
+
+## Modelo de base de datos
+
+El sistema utiliza las siguientes tablas principales:
+
+* users
+* roles
+* role_user
+* categories
+* category_user
+* elections
+* category_election
+* election_sections
+* vote_options
+* participations
+* votes
+* vote_option
+* audit_logs
+
+La base de datos separa la participación del usuario y el voto emitido. Esto permite comprobar que un usuario ha votado sin mostrar directamente la opción seleccionada en la verificación.
+
+## Seguridad implementada
+
+El proyecto incluye las siguientes medidas:
+
+* Autenticación mediante Laravel Breeze.
+* Contraseñas cifradas.
+* Middleware para proteger el panel de administración.
+* Acceso al panel admin solo para usuarios con rol admin.
+* Validación de formularios.
+* Control de voto duplicado.
+* Separación entre participación y voto.
+* Código único de verificación.
+
+## Estado actual del proyecto
+
+El proyecto incluye actualmente:
+
+* Login y registro.
+* Dashboard personalizado.
+* Panel admin protegido.
+* Gestión de usuarios.
+* Gestión de roles y categorías.
+* Creación de votaciones.
+* Creación de secciones y opciones.
+* Emisión de voto.
+* Bloqueo de voto duplicado.
+* Código de verificación.
+* Verificación de voto.
+* Consulta de resultados.
+
+## Mejoras futuras
+
+Algunas posibles mejoras futuras son:
+
+* Edición y eliminación de usuarios.
+* Edición y cierre automático de votaciones.
+* Exportación de resultados.
+* Gráficos avanzados.
+* Panel específico para supervisores.
+* Despliegue en servidor externo.
+* Uso de MySQL o PostgreSQL en producción.
+* Envío de credenciales por correo.
+* Auditoría avanzada.
+
+## Licencia
+
+Proyecto desarrollado con finalidad académica como Trabajo Final de 2º Desarrollo de Aplicaciones Web.
+
+## Autor
+
+Carlos de Martín Juan
+2º Desarrollo de Aplicaciones Web
+IES Joan Coromines
