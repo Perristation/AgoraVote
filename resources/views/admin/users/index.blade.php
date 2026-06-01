@@ -19,6 +19,12 @@
                 </div>
             @endif
 
+            @if (session('error'))
+                <div class="mb-6 bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <div class="bg-white shadow-sm sm:rounded-lg p-6 mb-6">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
@@ -58,6 +64,9 @@
                                         </th>
                                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Fecha alta
+                                        </th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Acciones
                                         </th>
                                     </tr>
                                 </thead>
@@ -105,6 +114,33 @@
 
                                             <td class="px-4 py-4 text-sm text-gray-700">
                                                 {{ $user->created_at->format('d/m/Y') }}
+                                            </td>
+
+                                            <td class="px-4 py-4 text-sm text-gray-700">
+                                                <div class="flex flex-wrap gap-2">
+                                                    <a href="{{ route('admin.users.edit', $user) }}"
+                                                        class="inline-flex items-center px-3 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
+                                                             Editar
+                                                    </a>
+
+                                                    @if ($user->id !== auth()->id())
+                                                        <form method="POST"
+                                                        action="{{ route('admin.users.destroy', $user) }}"
+                                                        onsubmit="return confirm('¿Seguro que quieres eliminar este usuario? Esta acción no se puede deshacer.');">
+                                                    @csrf
+                                                    @method('DELETE')
+
+                                                        <button type="submit"
+                                                        class="inline-flex items-center px-3 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700">
+                                                            Eliminar
+                                                        </button>
+                                                        </form>
+                                                    @else
+                                                        <span class="inline-flex items-center px-3 py-2 bg-gray-200 rounded-md font-semibold text-xs text-gray-600 uppercase tracking-widest">
+                                                            Usuario actual
+                                                        </span>
+                                                    @endif
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

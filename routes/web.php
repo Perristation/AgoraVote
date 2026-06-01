@@ -82,6 +82,18 @@ Route::post('/admin/usuarios', [UserController::class, 'store'])
     ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.users.store');
 
+Route::get('/admin/usuarios/{user}/editar', [UserController::class, 'edit'])
+    ->middleware(['auth', 'verified', 'admin'])
+    ->name('admin.users.edit');
+
+Route::put('/admin/usuarios/{user}', [UserController::class, 'update'])
+    ->middleware(['auth', 'verified', 'admin'])
+    ->name('admin.users.update');
+
+Route::delete('/admin/usuarios/{user}', [UserController::class, 'destroy'])
+    ->middleware(['auth', 'verified', 'admin'])
+    ->name('admin.users.destroy');
+
 /*
 |--------------------------------------------------------------------------
 | Gestión de votaciones
