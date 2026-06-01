@@ -10,9 +10,11 @@
 <body class="bg-gray-100 text-gray-900">
     <div class="min-h-screen flex flex-col items-center justify-center px-6">
         <div class="max-w-3xl w-full bg-white shadow-sm rounded-2xl p-8 text-center">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">
-                AgoraVote
-            </h1>
+            <div class="flex justify-center mb-6">
+                <img src="{{ asset('images/agoravote-logo.png') }}"
+                     alt="AgoraVote Logo"
+                     class="w-72 h-auto">
+            </div>
 
             <p class="text-lg text-gray-600 mb-6">
                 Sistema digital de votaciones para centros educativos.

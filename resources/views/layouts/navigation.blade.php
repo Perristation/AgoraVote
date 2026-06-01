@@ -5,8 +5,11 @@
             <div class="flex">
                 <!-- Logo / Nombre de la aplicación -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
+                        <img src="{{ asset('images/agoravote-logo.png') }}"
+                             alt="AgoraVote Logo"
+                             class="h-12 w-auto">
+
                         <span class="font-bold text-lg text-gray-800">
                             AgoraVote
                         </span>
@@ -18,9 +21,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         Inicio
                     </x-nav-link>
-                    <x-nav-link :href="route('votes.index')" :active="request()->routeIs('votes.*')">
-                         Votaciones
+
+                    <x-nav-link :href="route('votes.index')" :active="request()->routeIs('votes.index') || request()->routeIs('votes.show') || request()->routeIs('votes.confirmation')">
+                        Votaciones
                     </x-nav-link>
+
                     <x-nav-link :href="route('votes.verify.create')" :active="request()->routeIs('votes.verify.*')">
                         Verificar voto
                     </x-nav-link>
@@ -75,13 +80,27 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+        <div class="px-4 pt-4 pb-2 border-b border-gray-100">
+            <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
+                <img src="{{ asset('images/agoravote-logo.png') }}"
+                     alt="AgoraVote Logo"
+                     class="h-12 w-auto">
+
+                <span class="font-bold text-lg text-gray-800">
+                    AgoraVote
+                </span>
+            </a>
+        </div>
+
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 Inicio
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('votes.index')" :active="request()->routeIs('votes.*')">
+
+            <x-responsive-nav-link :href="route('votes.index')" :active="request()->routeIs('votes.index') || request()->routeIs('votes.show') || request()->routeIs('votes.confirmation')">
                 Votaciones
             </x-responsive-nav-link>
+
             <x-responsive-nav-link :href="route('votes.verify.create')" :active="request()->routeIs('votes.verify.*')">
                 Verificar voto
             </x-responsive-nav-link>
