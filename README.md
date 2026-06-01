@@ -27,7 +27,9 @@ Esta separación permite que el sistema controle por un lado quién puede admini
 
 ### Autenticación
 
-La aplicación incluye un sistema de autenticación basado en Laravel Breeze. Permite registrar usuarios, iniciar sesión, cerrar sesión y acceder al perfil de usuario.
+La aplicación incluye un sistema de autenticación basado en Laravel Breeze. Permite iniciar sesión, cerrar sesión y acceder al perfil de usuario.
+
+El registro público está desactivado. Los usuarios deben ser creados desde el panel de administración para garantizar que solo participen personas autorizadas por el centro educativo.
 
 ### Panel de administración
 
@@ -38,6 +40,8 @@ Desde el panel de administración se puede:
 * Consultar un resumen general del sistema.
 * Gestionar usuarios.
 * Crear usuarios.
+* Editar usuarios.
+* Eliminar usuarios.
 * Asignar roles a usuarios.
 * Asignar categorías a usuarios.
 * Crear votaciones.
@@ -46,13 +50,17 @@ Desde el panel de administración se puede:
 
 ### Gestión de usuarios
 
-El administrador puede crear usuarios desde el panel de administración. Al crear un usuario se le asigna:
+El administrador puede gestionar los usuarios desde el panel de administración. Desde esta sección puede crear nuevos usuarios, editar sus datos, modificar sus roles y categorías, y eliminar usuarios del sistema.
+
+Al crear o editar un usuario se gestionan los siguientes datos:
 
 * Nombre.
 * Correo electrónico.
-* Contraseña inicial.
+* Contraseña inicial o nueva contraseña.
 * Rol.
 * Categoría o categorías.
+
+El sistema evita que el administrador elimine su propio usuario mientras está usando la sesión actual.
 
 Los roles disponibles son:
 
@@ -245,11 +253,19 @@ Ejecutar:
 php artisan migrate:fresh --seed
 ```
 
-Este comando crea todas las tablas necesarias y carga los datos iniciales:
+Este comando crea todas las tablas necesarias y carga los datos iniciales de la aplicación.
+
+Al ejecutar este comando, el sistema crea automáticamente:
 
 * Roles.
 * Categorías.
 * Usuario administrador.
+* Usuarios demo.
+* Una votación de prueba llamada Elección Consejo Escolar 2026.
+* Una sección de votación.
+* Varias opciones de voto.
+
+De esta forma, el proyecto queda preparado para ser probado sin tener que crear los datos manualmente.
 
 ### 8. Compilar recursos del frontend
 
@@ -275,18 +291,39 @@ http://127.0.0.1:8000
 
 ## Credenciales de prueba
 
-Después de ejecutar los seeders, se crea un usuario administrador:
+Después de ejecutar los seeders, se crean los siguientes usuarios de prueba.
+
+Usuario administrador:
 
 ```text
 Email: admin@agoravote.test
 Contraseña: password
 ```
 
-Con este usuario se puede acceder al panel de administración.
+Usuario alumno:
 
-## Usuarios de prueba recomendados
+```text
+Email: alumno@agoravote.test
+Contraseña: password
+```
 
-Desde el panel de administración se pueden crear usuarios de prueba.
+Usuario profesor:
+
+```text
+Email: profesor@agoravote.test
+Contraseña: password
+```
+
+Usuario familia:
+
+```text
+Email: familia@agoravote.test
+Contraseña: password
+```
+
+## Usuarios de prueba incluidos
+
+El sistema incluye usuarios demo para facilitar la prueba de la aplicación.
 
 Usuario alumno:
 
@@ -335,15 +372,33 @@ Email: admin@agoravote.test
 Contraseña: password
 ```
 
-### 2. Crear usuarios
+### 2. Gestionar usuarios
 
 Desde el panel de administración:
+
+```text
+Panel admin → Gestionar usuarios
+```
+
+Desde esta sección el administrador puede consultar el listado de usuarios registrados en el sistema, crear nuevos usuarios, editar sus datos y eliminar usuarios.
+
+Para crear un usuario nuevo:
 
 ```text
 Panel admin → Gestionar usuarios → Nuevo usuario
 ```
 
-Rellenar los datos del usuario y asignarle rol y categoría.
+Al crear un usuario se debe indicar:
+
+* Nombre.
+* Correo electrónico.
+* Contraseña inicial.
+* Rol.
+* Categoría o categorías.
+
+Para modificar un usuario existente, se utiliza el botón Editar del listado de usuarios. Desde esa pantalla se puede cambiar el nombre, el correo electrónico, la contraseña, los roles y las categorías asignadas.
+
+Para eliminar un usuario, se utiliza el botón Eliminar del listado. El sistema evita eliminar el propio usuario administrador que está usando la sesión actual.
 
 ### 3. Crear una votación
 
@@ -497,6 +552,7 @@ La base de datos separa la participación del usuario y el voto emitido. Esto pe
 El proyecto incluye las siguientes medidas:
 
 * Autenticación mediante Laravel Breeze.
+* Registro público desactivado.
 * Contraseñas cifradas.
 * Middleware para proteger el panel de administración.
 * Acceso al panel admin solo para usuarios con rol admin.
@@ -509,10 +565,12 @@ El proyecto incluye las siguientes medidas:
 
 El proyecto incluye actualmente:
 
-* Login y registro.
+* Login.
+* Registro público desactivado.
 * Dashboard personalizado.
+* Logo personalizado de AgoraVote.
 * Panel admin protegido.
-* Gestión de usuarios.
+* Gestión de usuarios: creación, edición y eliminación.
 * Gestión de roles y categorías.
 * Creación de votaciones.
 * Creación de secciones y opciones.
@@ -521,12 +579,12 @@ El proyecto incluye actualmente:
 * Código de verificación.
 * Verificación de voto.
 * Consulta de resultados.
+* Datos demo mediante seeders.
 
 ## Mejoras futuras
 
 Algunas posibles mejoras futuras son:
 
-* Edición y eliminación de usuarios.
 * Edición y cierre automático de votaciones.
 * Exportación de resultados.
 * Gráficos avanzados.
