@@ -55,6 +55,11 @@
                             Añadir sección/opciones
                         </a>
 
+                        <a href="{{ route('admin.elections.edit', $election) }}"
+                        class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                            Editar votación
+                        </a>
+                        
                         <a href="{{ route('admin.results.show', $election) }}"
                         class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700">
                             Ver resultados

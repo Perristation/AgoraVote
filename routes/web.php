@@ -116,6 +116,14 @@ Route::post('/admin/votaciones', [ElectionController::class, 'store'])
     ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.elections.store');
 
+Route::get('/admin/votaciones/{election}/editar', [ElectionController::class, 'edit'])
+    ->middleware(['auth', 'verified', 'admin'])
+    ->name('admin.elections.edit');
+
+Route::put('/admin/votaciones/{election}', [ElectionController::class, 'update'])
+    ->middleware(['auth', 'verified', 'admin'])
+    ->name('admin.elections.update');
+
 Route::get('/admin/votaciones/{election}', [ElectionController::class, 'show'])
     ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.elections.show');
