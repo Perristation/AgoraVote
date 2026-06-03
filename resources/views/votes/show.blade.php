@@ -40,6 +40,12 @@
                     <span class="px-3 py-1 text-xs rounded-full bg-indigo-100 text-indigo-700">
                         Máximo de selecciones: {{ $election->max_selections }}
                     </span>
+
+                    @if ($election->show_realtime_results)
+                        <span class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
+                            Resultados en vivo habilitados
+                        </span>
+                    @endif
                 </div>
             </div>
 
@@ -117,11 +123,20 @@
                         @enderror
                     </div>
 
-                    <div class="flex items-center justify-between pt-4">
-                        <a href="{{ route('votes.index') }}"
-                           class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
-                            Cancelar
-                        </a>
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pt-4">
+                        <div class="flex flex-wrap gap-3">
+                            <a href="{{ route('votes.index') }}"
+                               class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                                Cancelar
+                            </a>
+
+                            @if ($election->show_realtime_results)
+                                <a href="{{ route('votes.results', $election) }}"
+                                   class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                                    Ver resultados en vivo
+                                </a>
+                            @endif
+                        </div>
 
                         <button type="submit"
                                 class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">

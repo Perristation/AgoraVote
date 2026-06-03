@@ -32,6 +32,10 @@ Route::get('/votaciones/{election}', [VoteController::class, 'show'])
     ->middleware(['auth', 'verified'])
     ->name('votes.show');
 
+Route::get('/votaciones/{election}/resultados', [VoteController::class, 'results'])
+    ->middleware(['auth', 'verified'])
+    ->name('votes.results');
+
 Route::post('/votaciones/{election}', [VoteController::class, 'store'])
     ->middleware(['auth', 'verified'])
     ->name('votes.store');

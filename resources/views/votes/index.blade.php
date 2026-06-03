@@ -47,13 +47,28 @@
                                     <span class="px-3 py-1 text-xs rounded-full bg-indigo-100 text-indigo-700">
                                         Tipo: {{ $election->voting_type }}
                                     </span>
+
+                                    @if ($election->show_realtime_results)
+                                        <span class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
+                                            Resultados en vivo
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
 
-                            <a href="{{ route('votes.show', $election) }}"
-                               class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
-                                Acceder
-                            </a>
+                            <div class="flex flex-wrap gap-3">
+                                <a href="{{ route('votes.show', $election) }}"
+                                   class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
+                                    Acceder
+                                </a>
+
+                                @if ($election->show_realtime_results)
+                                    <a href="{{ route('votes.results', $election) }}"
+                                       class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                                        Ver resultados
+                                    </a>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 @empty

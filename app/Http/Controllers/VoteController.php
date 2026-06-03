@@ -137,4 +137,61 @@ class VoteController extends Controller
 
         return view('votes.confirmation', compact('participation'));
     }
+
+    public function results(Election $election)
+    {
+        $user = auth()->user();
+
+        if (! $election->show_realtime_results) {
+            abort(403, 'Los resultados en vivo no están habilitados para esta votación.');
+        }
+
+        $election->load([
+            'categories',
+            'sections.options.votes.participation',
+            'participations.category',
+        ]);
+
+        $userCategories = $user->categories()
+            ->whereIn('categories.id', $election->categories->pluck('id'))
+            ->get();
+
+        if ($userCategories->isEmpty()) {
+            abort(403, 'No tienes permiso para consultar los resultados de esta votación.');
+        }
+
+        $totalVotes = $election->participations()->count();
+
+        $results = [];
+
+        foreach ($election->sections as $section) {
+            $sectionResults = [];
+
+            foreach ($section->options as $option) {
+                $votesCount = $option->votes
+                    ->filter(function ($vote) use ($election) {
+                        return $vote->participation
+                            && $vote->participation->election_id === $election->id;
+                    })
+                    ->count();
+
+                $percentage = $totalVotes > 0
+                    ? round(($votesCount / $totalVotes) * 100, 2)
+                    : 0;
+
+                $sectionResults[] = [
+                    'option' => $option,
+                    'votes' => $votesCount,
+                    'percentage' => $percentage,
+                ];
+            }
+
+            $results[] = [
+                'section' => $section,
+                'options' => $sectionResults,
+            ];
+        }
+
+        return view('votes.results', compact('election', 'totalVotes', 'results'));
+    }
 }
