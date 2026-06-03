@@ -21,9 +21,26 @@ class ElectionSectionController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'max_selections' => ['required', 'integer', 'min:1'],
-            'options' => ['required', 'array', 'min:2'],
-            'options.*' => ['required', 'string', 'max:255'],
+            'options' => ['required', 'array'],
+            'options.*' => ['nullable', 'string', 'max:255'],
         ]);
+
+        $options = collect($validated['options'])
+            ->map(function ($option) {
+                return trim((string) $option);
+            })
+            ->filter(function ($option) {
+                return $option !== '';
+            })
+            ->values();
+
+        if ($options->count() < 2) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'options' => 'Debes introducir al menos dos opciones de voto.',
+                ]);
+        }
 
         $section = ElectionSection::create([
             'election_id' => $election->id,
@@ -32,7 +49,7 @@ class ElectionSectionController extends Controller
             'max_selections' => $validated['max_selections'],
         ]);
 
-        foreach ($validated['options'] as $index => $optionText) {
+        foreach ($options as $index => $optionText) {
             VoteOption::create([
                 'election_section_id' => $section->id,
                 'text' => $optionText,
