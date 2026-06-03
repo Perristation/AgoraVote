@@ -132,6 +132,10 @@ Route::get('/admin/votaciones/{election}/resultados', [ResultController::class, 
     ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.results.show');
 
+Route::get('/admin/votaciones/{election}/resultados/exportar', [ResultController::class, 'export'])
+    ->middleware(['auth', 'verified', 'admin'])
+    ->name('admin.results.export');
+
 /*
 |--------------------------------------------------------------------------
 | Perfil de usuario

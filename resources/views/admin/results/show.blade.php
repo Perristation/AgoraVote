@@ -135,14 +135,25 @@
 
             <div class="mt-6 flex flex-wrap gap-3">
                 <a href="{{ route('admin.elections.show', $election) }}"
-                   class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
-                    Volver a la votación
+                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                        Volver a la votación
                 </a>
 
                 <a href="{{ route('admin.elections.index') }}"
-                   class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
-                    Volver al listado
+                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
+                        Volver al listado
                 </a>
+
+                @if ($election->status === 'closed')
+                    <a href="{{ route('admin.results.export', $election) }}"
+                        class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700">
+                            Exportar resultados CSV
+                    </a>
+                @else
+                    <span class="inline-flex items-center px-4 py-2 bg-gray-200 rounded-md font-semibold text-xs text-gray-600 uppercase tracking-widest">
+                        Exportación disponible al cerrar la votación
+                    </span>
+                @endif
             </div>
 
         </div>
