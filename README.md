@@ -2,7 +2,7 @@
 
 AgoraVote es una aplicación web desarrollada con Laravel para la gestión de votaciones digitales en centros educativos.
 
-El objetivo principal del proyecto es sustituir un sistema tradicional de votación en papel por una plataforma web que permita gestionar usuarios, roles, categorías, votaciones, opciones, emisión de votos, verificación mediante código y consulta de resultados.
+El objetivo principal del proyecto es sustituir un sistema tradicional de votación en papel por una plataforma web que permita gestionar usuarios, roles, categorías, votaciones, secciones, opciones, emisión de votos, verificación mediante código, consulta de resultados, resultados en vivo y exportación de resultados.
 
 Este proyecto ha sido desarrollado como Trabajo Final del ciclo de 2º Desarrollo de Aplicaciones Web en el IES Joan Coromines.
 
@@ -31,6 +31,10 @@ La aplicación incluye un sistema de autenticación basado en Laravel Breeze. Pe
 
 El registro público está desactivado. Los usuarios deben ser creados desde el panel de administración para garantizar que solo participen personas autorizadas por el centro educativo.
 
+### Logo e interfaz personalizada
+
+La aplicación cuenta con un logo personalizado de AgoraVote y una pantalla inicial adaptada al proyecto. También se ha personalizado la navegación principal para sustituir la interfaz inicial de Laravel por una presentación propia de la aplicación.
+
 ### Panel de administración
 
 El panel de administración está protegido mediante middleware. Solo los usuarios con rol admin pueden acceder a las rutas de administración.
@@ -45,8 +49,10 @@ Desde el panel de administración se puede:
 * Asignar roles a usuarios.
 * Asignar categorías a usuarios.
 * Crear votaciones.
+* Editar votaciones.
 * Añadir secciones y opciones de voto.
 * Consultar resultados de las votaciones.
+* Exportar resultados en formato CSV cuando la votación está cerrada.
 
 ### Gestión de usuarios
 
@@ -77,7 +83,7 @@ Las categorías disponibles son:
 
 ### Gestión de votaciones
 
-El administrador puede crear votaciones indicando:
+El administrador puede crear y editar votaciones indicando:
 
 * Título.
 * Descripción.
@@ -90,9 +96,32 @@ El administrador puede crear votaciones indicando:
 * Si los resultados se muestran en tiempo real.
 * Categorías autorizadas para participar.
 
+Los estados principales de una votación son:
+
+* draft: borrador.
+* active: activa.
+* closed: cerrada.
+* archived: archivada.
+
+### Edición de votaciones
+
+El sistema permite editar una votación ya creada desde el panel de administración.
+
+Desde la edición de una votación se pueden modificar sus datos principales, como título, descripción, fechas, estado, tipo de votación, anonimato, visibilidad de resultados en tiempo real, máximo de selecciones y categorías autorizadas.
+
+### Cierre automático de votaciones
+
+AgoraVote incluye un sistema de cierre automático basado en la fecha de finalización de la votación.
+
+Cuando una votación está activa y su fecha de finalización ya ha pasado, el sistema cambia automáticamente su estado a cerrada.
+
+Esta comprobación se realiza al acceder a zonas principales del sistema, como el listado de votaciones del administrador y el listado de votaciones del usuario. Además, si un usuario intenta votar después de que la votación haya caducado, el sistema impide el voto y muestra un mensaje indicando que la votación ya no está activa.
+
 ### Secciones y opciones de voto
 
 Cada votación puede tener una o varias secciones. Cada sección contiene las opciones que podrán seleccionar los votantes.
+
+Al crear una sección, el sistema exige un mínimo de dos opciones de voto. Las opciones adicionales son opcionales. Esto permite crear votaciones sencillas con solo dos opciones o votaciones más amplias con más alternativas.
 
 Ejemplo:
 
@@ -129,6 +158,31 @@ La pantalla de resultados muestra:
 * Participación por categoría.
 * Resultados por opción.
 * Porcentaje de votos de cada opción.
+
+### Resultados en vivo para votantes
+
+Si una votación tiene activada la opción de mostrar resultados en tiempo real, los votantes autorizados pueden consultar los resultados mientras la votación está activa.
+
+En ese caso, el usuario ve un botón para acceder a los resultados en vivo desde el listado de votaciones o desde la pantalla de emisión de voto.
+
+Si la votación no tiene activados los resultados en tiempo real, los votantes no pueden consultar los resultados durante el proceso.
+
+### Exportación de resultados
+
+Cuando una votación está cerrada, el administrador puede exportar los resultados en formato CSV.
+
+La exportación incluye:
+
+* Información general de la votación.
+* Estado de la votación.
+* Total de votos.
+* Participación por categoría.
+* Resultados por sección.
+* Resultados por opción.
+* Número de votos.
+* Porcentaje de cada opción.
+
+El archivo CSV puede abrirse desde Excel u otras hojas de cálculo.
 
 ## Tecnologías utilizadas
 
@@ -417,9 +471,35 @@ Estado: Activa
 Tipo: Varias opciones: una selección
 Máximo de selecciones: 1
 Categorías autorizadas: Alumnado, Profesorado, Familias
+Recuento: Mostrar en tiempo real o mostrar al finalizar
 ```
 
-### 4. Añadir secciones y opciones
+### 4. Editar una votación
+
+Desde el panel de administración:
+
+```text
+Panel admin → Gestionar votaciones → Editar
+```
+
+Desde esta pantalla se pueden modificar los datos principales de la votación, como título, descripción, fechas, estado, recuento, tipo de votación, máximo de selecciones y categorías autorizadas.
+
+### 5. Programar cierre automático
+
+Para programar el cierre automático de una votación, se debe indicar una fecha de finalización en el campo correspondiente.
+
+Cuando la fecha de finalización pasa y la votación está activa, el sistema cambia automáticamente su estado a cerrada.
+
+Ejemplo:
+
+```text
+Estado: Activa
+Fecha de finalización: 10/06/2026 12:00
+```
+
+Cuando el sistema detecta que esa fecha ya ha pasado, la votación se cambia automáticamente a estado cerrada.
+
+### 6. Añadir secciones y opciones
 
 Entrar en la votación creada y pulsar:
 
@@ -434,14 +514,18 @@ Título de sección: Representantes del alumnado
 Descripción: Candidatos disponibles para representar al alumnado.
 Máximo de selecciones: 1
 
-Opciones:
+Opciones obligatorias:
 - Ana García
 - Marcos Pérez
+
+Opciones adicionales:
 - Laura Sánchez
 - David Ruiz
 ```
 
-### 5. Votar como usuario
+El sistema permite crear una sección con un mínimo de dos opciones. Las opciones adicionales pueden dejarse vacías.
+
+### 7. Votar como usuario
 
 Cerrar sesión como administrador e iniciar sesión con un usuario votante.
 
@@ -455,7 +539,17 @@ Seleccionar una votación activa, elegir una opción y confirmar el voto.
 
 Al finalizar, el sistema mostrará un código de verificación.
 
-### 6. Verificar voto
+### 8. Ver resultados en vivo
+
+Si la votación tiene activado el recuento en tiempo real, el votante podrá acceder a los resultados desde:
+
+```text
+Votaciones → Ver resultados
+```
+
+También podrá ver el botón de resultados en vivo dentro de la pantalla de emisión del voto.
+
+### 9. Verificar voto
 
 Entrar en:
 
@@ -467,7 +561,7 @@ Introducir el código generado después de votar.
 
 El sistema confirmará si el voto está registrado.
 
-### 7. Consultar resultados
+### 10. Consultar resultados como administrador
 
 Entrar como administrador.
 
@@ -483,6 +577,16 @@ Se mostrarán:
 * Participación por categoría.
 * Votos por opción.
 * Porcentaje de cada opción.
+
+### 11. Exportar resultados
+
+Cuando una votación está cerrada, el administrador puede exportar los resultados desde:
+
+```text
+Panel admin → Gestionar votaciones → Seleccionar votación → Ver resultados → Exportar resultados CSV
+```
+
+El archivo exportado contiene información general de la votación, participación por categoría y resultados por opción.
 
 ## Estructura principal del proyecto
 
@@ -514,6 +618,9 @@ AgoraVote/
 ├── database/
 │   ├── migrations/
 │   └── seeders/
+├── public/
+│   └── images/
+│       └── agoravote-logo.png
 ├── resources/
 │   └── views/
 │       ├── admin/
@@ -558,6 +665,8 @@ El proyecto incluye las siguientes medidas:
 * Acceso al panel admin solo para usuarios con rol admin.
 * Validación de formularios.
 * Control de voto duplicado.
+* Bloqueo de voto cuando la votación ya no está activa.
+* Cierre automático de votaciones caducadas.
 * Separación entre participación y voto.
 * Código único de verificación.
 
@@ -573,20 +682,26 @@ El proyecto incluye actualmente:
 * Gestión de usuarios: creación, edición y eliminación.
 * Gestión de roles y categorías.
 * Creación de votaciones.
+* Edición de votaciones.
+* Cierre automático de votaciones según fecha de finalización.
+* Creación de secciones con mínimo de dos opciones y opciones adicionales opcionales.
 * Creación de secciones y opciones.
 * Emisión de voto.
 * Bloqueo de voto duplicado.
+* Bloqueo de voto fuera de plazo.
 * Código de verificación.
 * Verificación de voto.
+* Resultados en vivo para votaciones configuradas con recuento en tiempo real.
 * Consulta de resultados.
+* Exportación CSV de resultados en votaciones cerradas.
 * Datos demo mediante seeders.
 
 ## Mejoras futuras
 
 Algunas posibles mejoras futuras son:
 
-* Edición y cierre automático de votaciones.
-* Exportación de resultados.
+* Eliminación o edición avanzada de secciones y opciones.
+* Exportación de resultados en PDF.
 * Gráficos avanzados.
 * Panel específico para supervisores.
 * Despliegue en servidor externo.
