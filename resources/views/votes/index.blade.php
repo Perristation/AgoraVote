@@ -12,6 +12,11 @@
 
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if (session('error'))
+                <div class="mb-6 bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded">
+            {{ session('error') }}
+        </div>
+            @endif
 
             <div class="bg-white shadow-sm sm:rounded-lg p-6 mb-6">
                 <h3 class="text-2xl font-bold text-gray-800">

@@ -38,4 +38,12 @@ class Election extends Model
     {
         return $this->hasMany(Participation::class);
     }
+
+    public static function closeExpired(): void
+    {
+        self::where('status', 'active')
+            ->whereNotNull('end_at')
+            ->where('end_at', '<=', now())
+            ->update(['status' => 'closed']);
+    }
 }

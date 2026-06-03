@@ -12,24 +12,36 @@ use Illuminate\Support\Str;
 class VoteController extends Controller
 {
     public function index()
-    {
-        $user = auth()->user();
+{
+    Election::closeExpired();
 
-        $userCategoryIds = $user->categories()->pluck('categories.id');
+    $user = auth()->user();
 
-        $elections = Election::with(['categories', 'sections.options'])
-            ->where('status', 'active')
-            ->whereHas('categories', function ($query) use ($userCategoryIds) {
-                $query->whereIn('categories.id', $userCategoryIds);
-            })
-            ->latest()
-            ->get();
+    $userCategoryIds = $user->categories()->pluck('categories.id');
 
-        return view('votes.index', compact('elections'));
-    }
+    $elections = Election::with(['categories', 'sections.options'])
+        ->where('status', 'active')
+        ->whereHas('categories', function ($query) use ($userCategoryIds) {
+            $query->whereIn('categories.id', $userCategoryIds);
+        })
+        ->latest()
+        ->get();
+
+    return view('votes.index', compact('elections'));
+}
 
     public function show(Election $election)
     {
+        Election::closeExpired();
+
+        $election->refresh();
+
+        if ($election->status !== 'active') {
+            return redirect()
+                ->route('votes.index')
+                ->with('error', 'Esta votación ya no está activa.');
+        }
+        
         $user = auth()->user();
 
         $election->load(['categories', 'sections.options']);
@@ -48,6 +60,16 @@ class VoteController extends Controller
     public function store(Request $request, Election $election)
     {
         $user = auth()->user();
+
+        Election::closeExpired();
+
+        $election->refresh();
+
+        if ($election->status !== 'active') {
+            return redirect()
+                ->route('votes.index')
+                ->with('error', 'Esta votación ya no está activa.');
+        }
 
         $validated = $request->validate([
             'category_id' => ['required', 'exists:categories,id'],

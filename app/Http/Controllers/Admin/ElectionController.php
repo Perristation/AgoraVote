@@ -11,6 +11,8 @@ class ElectionController extends Controller
 {
     public function index()
     {
+        Election::closeExpired();
+
         $elections = Election::with('creator')
             ->latest()
             ->get();
@@ -56,6 +58,8 @@ class ElectionController extends Controller
 
         $election->categories()->sync($validated['categories']);
 
+        Election::closeExpired();
+
         return redirect()
             ->route('admin.elections.index')
             ->with('success', 'La votación se ha creado correctamente.');
@@ -63,6 +67,10 @@ class ElectionController extends Controller
 
     public function show(Election $election)
     {
+        Election::closeExpired();
+
+        $election->refresh();
+
         $election->load([
             'creator',
             'categories',
@@ -74,6 +82,10 @@ class ElectionController extends Controller
 
     public function edit(Election $election)
     {
+        Election::closeExpired();
+
+        $election->refresh();
+
         $categories = Category::orderBy('name')->get();
 
         $election->load('categories');
@@ -110,6 +122,10 @@ class ElectionController extends Controller
         ]);
 
         $election->categories()->sync($validated['categories']);
+
+        Election::closeExpired();
+
+        $election->refresh();
 
         return redirect()
             ->route('admin.elections.show', $election)
