@@ -61,10 +61,13 @@ El administrador puede gestionar los usuarios desde el panel de administración.
 Al crear o editar un usuario se gestionan los siguientes datos:
 
 * Nombre.
+* DNI/NIE.
 * Correo electrónico.
 * Contraseña inicial o nueva contraseña.
 * Rol.
 * Categoría o categorías.
+
+El DNI/NIE es obligatorio y único para cada usuario, lo que permite identificar de forma más precisa a las personas registradas dentro del sistema.
 
 El sistema evita que el administrador elimine su propio usuario mientras está usando la sesión actual.
 
@@ -352,6 +355,7 @@ Usuario administrador:
 ```text
 Email: admin@agoravote.test
 Contraseña: password
+DNI/NIE: 00000000A
 ```
 
 Usuario alumno:
@@ -359,6 +363,7 @@ Usuario alumno:
 ```text
 Email: alumno@agoravote.test
 Contraseña: password
+DNI/NIE: 11111111A
 ```
 
 Usuario profesor:
@@ -366,6 +371,7 @@ Usuario profesor:
 ```text
 Email: profesor@agoravote.test
 Contraseña: password
+DNI/NIE: 22222222B
 ```
 
 Usuario familia:
@@ -373,6 +379,7 @@ Usuario familia:
 ```text
 Email: familia@agoravote.test
 Contraseña: password
+DNI/NIE: 33333333C
 ```
 
 ## Usuarios de prueba incluidos
@@ -383,6 +390,7 @@ Usuario alumno:
 
 ```text
 Nombre: Alumno Demo
+DNI/NIE: 11111111A
 Email: alumno@agoravote.test
 Contraseña: password
 Rol: votante
@@ -393,6 +401,7 @@ Usuario profesor:
 
 ```text
 Nombre: Profesor Demo
+DNI/NIE: 22222222B
 Email: profesor@agoravote.test
 Contraseña: password
 Rol: votante
@@ -403,6 +412,7 @@ Usuario familia:
 
 ```text
 Nombre: Familia Demo
+DNI/NIE: 33333333C
 Email: familia@agoravote.test
 Contraseña: password
 Rol: votante
@@ -445,12 +455,15 @@ Panel admin → Gestionar usuarios → Nuevo usuario
 Al crear un usuario se debe indicar:
 
 * Nombre.
+* DNI/NIE.
 * Correo electrónico.
 * Contraseña inicial.
 * Rol.
 * Categoría o categorías.
 
-Para modificar un usuario existente, se utiliza el botón Editar del listado de usuarios. Desde esa pantalla se puede cambiar el nombre, el correo electrónico, la contraseña, los roles y las categorías asignadas.
+El DNI/NIE es obligatorio y no puede repetirse entre usuarios.
+
+Para modificar un usuario existente, se utiliza el botón Editar del listado de usuarios. Desde esa pantalla se puede cambiar el nombre, el DNI/NIE, el correo electrónico, la contraseña, los roles y las categorías asignadas.
 
 Para eliminar un usuario, se utiliza el botón Eliminar del listado. El sistema evita eliminar el propio usuario administrador que está usando la sesión actual.
 
@@ -654,12 +667,15 @@ El sistema utiliza las siguientes tablas principales:
 
 La base de datos separa la participación del usuario y el voto emitido. Esto permite comprobar que un usuario ha votado sin mostrar directamente la opción seleccionada en la verificación.
 
+La tabla de usuarios incluye un campo DNI/NIE único, utilizado como identificador administrativo adicional junto al nombre y el correo electrónico.
+
 ## Seguridad implementada
 
 El proyecto incluye las siguientes medidas:
 
 * Autenticación mediante Laravel Breeze.
 * Registro público desactivado.
+* Identificación de usuarios mediante DNI/NIE único.
 * Contraseñas cifradas.
 * Middleware para proteger el panel de administración.
 * Acceso al panel admin solo para usuarios con rol admin.
@@ -679,7 +695,7 @@ El proyecto incluye actualmente:
 * Dashboard personalizado.
 * Logo personalizado de AgoraVote.
 * Panel admin protegido.
-* Gestión de usuarios: creación, edición y eliminación.
+* Gestión de usuarios: creación, edición y eliminación con DNI/NIE obligatorio.
 * Gestión de roles y categorías.
 * Creación de votaciones.
 * Edición de votaciones.
@@ -708,6 +724,7 @@ Algunas posibles mejoras futuras son:
 * Uso de MySQL o PostgreSQL en producción.
 * Envío de credenciales por correo.
 * Auditoría avanzada.
+* Notificaciones automáticas al cerrar una votación.
 
 ## Licencia
 
