@@ -16,6 +16,7 @@ class AdminUserSeeder extends Seeder
             ['email' => 'admin@agoravote.test'],
             [
                 'name' => 'Carlos de Martín Juan',
+                'dni' => '00000000A',
                 'password' => Hash::make('password'),
             ]
         );

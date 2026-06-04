@@ -33,6 +33,7 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'dni' => ['required', 'string', 'max:20', 'unique:users,dni'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
             'roles' => ['required', 'array', 'min:1'],
@@ -43,6 +44,7 @@ class UserController extends Controller
 
         $user = User::create([
             'name' => $validated['name'],
+            'dni' => strtoupper($validated['dni']),
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
@@ -78,6 +80,12 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'dni' => [
+                'required',
+                'string',
+                'max:20',
+                Rule::unique('users', 'dni')->ignore($user->id),
+            ],
             'email' => [
                 'required',
                 'email',
@@ -92,6 +100,7 @@ class UserController extends Controller
         ]);
 
         $user->name = $validated['name'];
+        $user->dni = strtoupper($validated['dni']);
         $user->email = $validated['email'];
 
         if (! empty($validated['password'])) {

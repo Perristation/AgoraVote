@@ -14,9 +14,10 @@ class User extends Authenticatable
      * Campos que se pueden rellenar de forma masiva.
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+    'name',
+    'dni',
+    'email',
+    'password',
     ];
 
     /**

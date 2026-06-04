@@ -27,6 +27,7 @@ class DemoSeeder extends Seeder
             ['email' => 'admin@agoravote.test'],
             [
                 'name' => 'Administrador AgoraVote',
+                'dni' => '00000000A',
                 'password' => Hash::make('password'),
             ]
         );
@@ -40,6 +41,7 @@ class DemoSeeder extends Seeder
             ['email' => 'alumno@agoravote.test'],
             [
                 'name' => 'Alumno Demo',
+                'dni' => '22222222B',
                 'password' => Hash::make('password'),
             ]
         );
@@ -53,6 +55,7 @@ class DemoSeeder extends Seeder
             ['email' => 'profesor@agoravote.test'],
             [
                 'name' => 'Profesor Demo',
+                'dni' => '11111111C',
                 'password' => Hash::make('password'),
             ]
         );
@@ -66,6 +69,7 @@ class DemoSeeder extends Seeder
             ['email' => 'familia@agoravote.test'],
             [
                 'name' => 'Familia Demo',
+                'dni' => '33333333D',
                 'password' => Hash::make('password'),
             ]
         );
@@ -108,10 +112,10 @@ class DemoSeeder extends Seeder
         );
 
         $options = [
-            'Ana García',
-            'Marcos Pérez',
-            'Laura Sánchez',
-            'David Ruiz',
+            'Felipe',
+            'Hector',
+            'Carolina',
+            'Mauro',
         ];
 
         foreach ($options as $index => $optionText) {

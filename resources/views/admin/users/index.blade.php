@@ -54,7 +54,7 @@
                                             Nombre
                                         </th>
                                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Email
+                                            DNI
                                         </th>
                                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Roles
@@ -78,6 +78,10 @@
                                                 <p class="font-semibold text-gray-800">
                                                     {{ $user->name }}
                                                 </p>
+                                            </td>
+
+                                            <td class="px-4 py-4 text-sm text-gray-700">
+                                                {{ $user->dni ?? 'Sin DNI' }}
                                             </td>
 
                                             <td class="px-4 py-4 text-sm text-gray-700">
